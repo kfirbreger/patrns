@@ -1,0 +1,47 @@
+main, nav, {
+  display: block;
+}
+
+canvas {
+  display: inline-block;
+  zoom: 1;
+  border: 1px solid #000;
+}
+
+h1 {
+  font-size: 2em;
+  margin: .67em 0
+}
+
+h2 {
+  font-size: 1.5rem;
+  margin: .83rem 0;
+}
+
+
+body {
+  font-family: sans-serif;
+  font-weight: lighter;
+  font-size: 16pt;
+}
+
+.middle {
+  text-align: center;
+  margin-left: auto;
+  margin-right: auto;
+}
+
+.controls {
+  list-style: none;
+}
+
+.controls li {
+  display: inline-block;
+  margin-left: 2rem;
+}
+
+.controls label {
+  font-size: 0.9rem;
+  position: relative;
+  top: -0.25rem;
+}
