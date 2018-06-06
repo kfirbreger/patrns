@@ -76,32 +76,21 @@
     /**
      * Polygons
      */
-    function Poly(x, y, sides, size, color) {
-      this.color = (color)? color : "#000000";
-      this.x = x;
-      this.y = y;
-      this.sides = sides;
-      this.size = size;
-      this.color = color;
-      
-    };
-    Poly.prototype.draw = function draw(ctx) {
+    function drawPolygon(ctx, x, y, sides, size, color) {
       // Takes a drawing context and draws the poly on it
-      const step = (2 * Math.PI) / this.sides;
+      const step = (2 * Math.PI) / sides;
       ctx.beginPath();
-      ctx.translate(this.x,this.y);
       ctx.rotate(Math.PI / 2);
-      ctx.moveTo(this.size, 0);
+      ctx.moveTo(size, 0);
 
-      for (let i = 1;i < this.sides;i++) {
-        ctx.lineTo (this.size * Math.cos(i * step), this.size * Math.sin(i * step));
+      for (let i = 1;i < sides;i++) {
+        ctx.lineTo(x + (size * Math.cos(i * step)), y + (size * Math.sin(i * step)));
       }
       ctx.closePath();
 
-      ctx.fillStyle = this.color;
+      ctx.fillStyle = color;
       ctx.fill();
       ctx.rotate(-Math.PI / 2);
-      ctx.translate(-this.x, -this.y);
     };
   
     function Polygons(selector, polyCount, size) {
@@ -137,8 +126,7 @@
       for (let i = 0;i < this.polyCount;i++) {
         pos = this._createLocation();
         color = this._createColor();
-        poly = new Poly(pos[0], pos[1], 6,this.size, color);
-        poly.draw(ctx);
+        drawPolygon(ctx, pos[0], pos[1], 6,this.size, color);
       }
     };
 
