@@ -130,11 +130,19 @@
       }
     };
 
-    function Dot(x, y, size, color) {
-      this.x = x;
-      this.y = y;
-      this.size = size;
-      this.color = color;
+    function drawDot(ctx, x, y, size, color) {
+      ctx.arc(x, y, size, 0, Math.PI * 2);
+    }
+    
+    function Dots(selector, count, radius) {
+      this.canvas = new Canvas(selector);
+      this.count = count;
+      this.radius = radius;
+      
+      // Calculatin dots distribution
+      const max_x = this.canvas.elem.width;
+      const max_y = this.canvas.elem.height;
+      const vertical_fit = 0;
     }
     return {
       // Setting up polygons
