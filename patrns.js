@@ -80,18 +80,23 @@
       // Takes a drawing context and draws the poly on it
       const step = (2 * Math.PI) / sides;
       ctx.beginPath();
+      // Projection
+      ctx.translate(x, y);
       ctx.rotate(Math.PI / 2);
+      // Setting up the location
       ctx.moveTo(size, 0);
-
+      // Drawing the lines
       for (let i = 1;i < sides;i++) {
-        ctx.lineTo(x + (size * Math.cos(i * step)), y + (size * Math.sin(i * step)));
+        ctx.lineTo(size * Math.cos(i * step), size * Math.sin(i * step));
       }
+      // Filling
       ctx.closePath();
-
       ctx.fillStyle = color;
       ctx.fill();
+      // Reversing the prjection
       ctx.rotate(-Math.PI / 2);
-    };
+      ctx.translate(-x, -y);
+};
   
     function Polygons(selector, polyCount, size) {
       this.canvas = new Canvas(selector);
@@ -103,8 +108,8 @@
     };
     Polygons.prototype._createLocation = function createLocation() {
       return [
-        Math.round(Math.random() * (this.max_x + this.size * 2) - this.size),
-        Math.round(Math.random() * (this.max_y + this.size* 2) - this.size)
+        Math.round(Math.random() * (this.max_x + this.size)),
+        Math.round(Math.random() * (this.max_y + this.size))
       ]
     };
     Polygons.prototype._createColor = function createColor() {
@@ -140,11 +145,11 @@
       this.radius = radius;
       
       // Calculatin dots distribution
-      const ratio = this.canvas.elem.width /  this.canvas.elem.height;
-      let y_count = count / (2 * ratio);
+      const ratio = (this.canvas.elem.width * 1.0) /  this.canvas.elem.height;
+      let y_count = Math.sqrt(count / ratio);
       const x_count = Math.round(ratio * y_count);
       y_count = Math.round(y_count);
-      console.log('Actualy fiting ', x_count * y_count, ' from ', count);
+      console.log('Actualy fiting ', x_count, y_count, x_count * y_count, ' from ', count);
     }
     return {
       // Setting up polygons
