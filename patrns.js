@@ -149,6 +149,7 @@
     return {
       // Setting up polygons
       polygons: new Polygons('#polygons', 2000, 30),
+      dots: new Dots('#dots', 40, 10),
       run: function run() {
         this.polygons.draw();
       }
