@@ -48,6 +48,13 @@
       }
       return color
     }
+    function createColor() {
+      // Create a random color
+      const h = Math.random(),
+            s = (Math.random() * 0.5) + 0.5,
+            l = (Math.random() * 0.2) + 0.5;
+      return hslToRgb(h, s, l);
+    }
 
     function Canvas(selector) {
       function getCanvasElement(selector) {
@@ -112,13 +119,6 @@
         Math.round(Math.random() * (this.max_y + this.size))
       ]
     };
-    Polygons.prototype._createColor = function createColor() {
-      // Create a random color
-      const h = Math.random(),
-            s = (Math.random() * 0.5) + 0.5,
-            l = (Math.random() * 0.2) + 0.5;
-      return hslToRgb(h, s, l);
-    };
     Polygons.prototype.draw = function draw() {
       // Getting the drawing context
       const ctx = this.canvas.getContext();
@@ -130,33 +130,55 @@
           poly = null;
       for (let i = 0;i < this.polyCount;i++) {
         pos = this._createLocation();
-        color = this._createColor();
+        color = createColor();
         drawPolygon(ctx, pos[0], pos[1], 6,this.size, color);
       }
     };
 
-    function drawDot(ctx, x, y, size, color) {
-      ctx.arc(x, y, size, 0, Math.PI * 2);
+    function drawDot(ctx, x, y, radius, color) {
+      ctx.beginPath();
+      ctx.arc(x, y, radius, 0, Math.PI * 2);
+      ctx.fillStyle = color;
+      ctx.fill();
+      ctx.closePath();
     }
     
     function Dots(selector, count, radius) {
       this.canvas = new Canvas(selector);
       this.count = count;
       this.radius = radius;
-      
+    }
+    Dots.prototype.draw = function draw() {
+      const ctx = this.canvas.getContext();
+      ctx.clearRect(0, 0, this.max_x, this.max_y);
       // Calculatin dots distribution
       const ratio = (this.canvas.elem.width * 1.0) /  this.canvas.elem.height;
-      let y_count = Math.sqrt(count / ratio);
+      const y_count = Math.sqrt(this.count / ratio);
       const x_count = Math.round(ratio * y_count);
-      y_count = Math.round(y_count);
-      console.log('Actualy fiting ', x_count, y_count, x_count * y_count, ' from ', count);
+      console.log(x_count, y_count);
+      // y_count = Math.round(y_count);
+      // Updating the count
+      count = Math.round(x_count) * Math.round(y_count);
+      const step = this.canvas.elem.width / x_count;
+      let x = step / 2, y =  - step / 2;
+      console.log('Drawing', count);
+      while (count > 0) {
+        if ((count % x_count) === 0) {
+          x = step / 2;
+          y += step;
+        }
+        drawDot(ctx, x, y, this.radius, createColor());
+        x += step;
+        count -= 1;
+      }
     }
     return {
       // Setting up polygons
       polygons: new Polygons('#polygons', 2000, 30),
-      dots: new Dots('#dots', 40, 10),
+      dots: new Dots('#dots', 40, 12),
       run: function run() {
         this.polygons.draw();
+        this.dots.draw();
       }
     };
   }
