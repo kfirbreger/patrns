@@ -140,9 +140,11 @@
       this.radius = radius;
       
       // Calculatin dots distribution
-      const max_x = this.canvas.elem.width;
-      const max_y = this.canvas.elem.height;
-      const vertical_fit = 0;
+      const ratio = this.canvas.elem.width /  this.canvas.elem.height;
+      let y_count = count / (2 * ratio);
+      const x_count = Math.round(ratio * y_count);
+      y_count = Math.round(y_count);
+      console.log('Actualy fiting ', x_count * y_count, ' from ', count);
     }
     return {
       // Setting up polygons
