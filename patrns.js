@@ -50,9 +50,10 @@
     }
     function createColor() {
       // Create a random color
-      const h = Math.random(),
-            s = (Math.random() * 0.5) + 0.5,
-            l = (Math.random() * 0.2) + 0.5;
+      const h = Math.round(Math.random() * 360),
+            s = Math.round(((Math.random() * 0.5) + 0.5) * 100),
+            l = Math.round(((Math.random() * 0.2) + 0.5) * 100);
+      return 'hsl(' + h + ',' + s + '%, ' + l + '%)';
       return hslToRgb(h, s, l);
     }
 
@@ -161,7 +162,6 @@
       count = Math.round(x_count) * Math.round(y_count);
       const step = this.canvas.elem.width / x_count;
       let x = step / 2, y =  - step / 2;
-      console.log('Drawing', count);
       while (count > 0) {
         if ((count % x_count) === 0) {
           x = step / 2;
@@ -175,7 +175,7 @@
     return {
       // Setting up polygons
       polygons: new Polygons('#polygons', 2000, 30),
-      dots: new Dots('#dots', 40, 12),
+      dots: new Dots('#dots', 60, 10),
       run: function run() {
         this.polygons.draw();
         this.dots.draw();
