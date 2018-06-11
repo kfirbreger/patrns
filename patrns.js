@@ -126,7 +126,7 @@
           x = step / 2;
           y += step;
         }
-        drawDot(ctx, x, y, this.radius, createColor());
+        drawDot(ctx, x, y, this.radius, createColor(0.5, 0.7));
         x += step;
         count -= 1;
       }
