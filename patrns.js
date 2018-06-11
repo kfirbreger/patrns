@@ -7,54 +7,13 @@
     const golden_ration = 1.61803399,  // Proxemation of the golden ratio
         document = window.document;  // Making it easier to work with document
    
-    /**
-     * Converts an HSL color value to RGB. Conversion formula
-     * adapted from http://en.wikipedia.org/wiki/HSL_color_space.
-     * Assumes h, s, and l are contained in the set [0, 1] and
-     * returns r, g, and b in the set [0, 255].
-     *
-     * @param   Number  h       The hue
-     * @param   Number  s       The saturation
-     * @param   Number  l       The lightness
-     * @return  String hex rgb color
-     */
-    function hslToRgb(h, s, l) {
-      let r, g, b;
-
-      if (s == 0) {
-        r = g = b = 'ff'; // achromatic
-      } else {
-        function hue2rgb(p, q, t) {
-          if (t < 0) t += 1;
-          if (t > 1) t -= 1;
-          if (t < 1/6) return p + (q - p) * 6 * t;
-          if (t < 1/2) return q;
-          if (t < 2/3) return p + (q - p) * (2/3 - t) * 6;
-          return p;
-        }
-
-        const q = l < 0.5 ? l * (1 + s) : l + s - l * s;
-        const p = 2 * l - q;
-
-        r = (Math.round(hue2rgb(p, q, h + 1/3) * 255)).toString(16);
-        g = (Math.round(hue2rgb(p, q, h) * 255)).toString(16);
-        b = (Math.round(hue2rgb(p, q, h - 1/3) * 255)).toString(16);
-      }
-      
-      const colors =  [r, g, b];
-      let color = '#';
-      for (let i = 0;i < 3;i++) {
-        color += (colors[i].length === 1)? '0' + colors[i]: colors[i];
-      }
-      return color
-    }
-    function createColor() {
+   function createColor(saturation = 0.5, luminance = 0.4) {
       // Create a random color
-      const h = Math.round(Math.random() * 360),
-            s = Math.round(((Math.random() * 0.5) + 0.5) * 100),
-            l = Math.round(((Math.random() * 0.2) + 0.5) * 100);
+      // @TODO add parameter verification
+     const h = Math.round(Math.random() * 360),
+            s = Math.round(((Math.random() * (1.0 - saturation)) + saturation) * 100),
+            l = Math.round(((Math.random() * 0.2) + luminance) * 100);
       return 'hsl(' + h + ',' + s + '%, ' + l + '%)';
-      return hslToRgb(h, s, l);
     }
 
     function Canvas(selector) {
@@ -156,12 +115,12 @@
       const ratio = (this.canvas.elem.width * 1.0) /  this.canvas.elem.height;
       const y_count = Math.sqrt(this.count / ratio);
       const x_count = Math.round(ratio * y_count);
-      console.log(x_count, y_count);
       // y_count = Math.round(y_count);
       // Updating the count
       count = Math.round(x_count) * Math.round(y_count);
       const step = this.canvas.elem.width / x_count;
-      let x = step / 2, y =  - step / 2;
+      let x = (this.canvas.elem.width - step * x_count) / 2,
+          y =  - (this.canvas.elem.height - step * y_count) / 2;
       while (count > 0) {
         if ((count % x_count) === 0) {
           x = step / 2;
