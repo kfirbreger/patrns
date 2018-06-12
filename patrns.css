@@ -9,6 +9,7 @@ canvas {
 }
 
 h1 {
+  font-family: 'Poiret One', serif;
   font-size: 2em;
   margin: .67em 0
 }
@@ -44,4 +45,12 @@ body {
   font-size: 0.9rem;
   position: relative;
   top: -0.25rem;
+}
+
+.patrns-list {
+  display: block;
+}
+
+.patrns-item {
+  float: left;
 }
