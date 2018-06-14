@@ -9,7 +9,6 @@ canvas {
 }
 
 h1 {
-  font-family: 'Poiret One', serif;
   font-size: 2em;
   margin: .67em 0
 }
@@ -21,15 +20,19 @@ h2 {
 
 
 body {
-  font-family: sans-serif;
+  font-family: 'Comfortaa', serif;
   font-weight: lighter;
   font-size: 16pt;
+  text-align: center
 }
 
 .middle {
-  text-align: center;
   margin-left: auto;
   margin-right: auto;
+}
+
+.art-section {
+  margin-top: 3em;
 }
 
 .controls {
@@ -47,10 +50,28 @@ body {
   top: -0.25rem;
 }
 
+#sec-title {
+  margin-top: 10%;
+  width: 90%;
+}
 .patrns-list {
   display: block;
+  overflow: hidden;
+  margin-left: auto;
+  margin-right: auto;
 }
 
 .patrns-item {
+  width: 10em;
   float: left;
+}
+
+.hidden {
+  display: none;
+}
+
+.shape {
+  stroke: #101010;
+  stroke-width: 3;
+  fill: none;
 }

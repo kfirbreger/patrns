@@ -131,6 +131,14 @@
         count -= 1;
       }
     }
+    /**
+     * Draws a line by in the direction teta. After moving dis_from center
+     * in direction teta draws a disance long line stroke wide.
+     * At the head returning the drawing head back to the starting point
+     */
+    function drawLine(ctx, teta, distance, dis_from_center, stroke) {
+      return;
+    }
     return {
       // Setting up polygons
       polygons: new Polygons('#polygons', 2000, 30),
