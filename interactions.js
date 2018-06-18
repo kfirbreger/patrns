@@ -26,4 +26,13 @@
     section.classList.add('active');
     section.classList.remove('hidden');
   }
+
+  // Making canvas click a redraw
+  // This works by having the arts parameter and the canvas id be the same
+  // @TODO make more robust by adding a data-parameter attribute
+  for (let elem of document.getElementsByTagName('canvas')) {
+    elem.addEventListener('click', function(event) {
+      window.Art[elem.id].draw();
+    });
+  }
 })(window, document);
