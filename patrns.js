@@ -63,7 +63,7 @@
       // Reversing the prjection
       ctx.rotate(-Math.PI / 2);
       ctx.translate(-x, -y);
-};
+    };
   
     function Polygons(selector, polyCount, size) {
       this.canvas = new Canvas(selector);
@@ -94,7 +94,9 @@
         drawPolygon(ctx, pos[0], pos[1], 6,this.size, color);
       }
     };
-
+    /**
+     * Dots
+     */
     function drawDot(ctx, x, y, radius, color) {
       ctx.beginPath();
       ctx.arc(x, y, radius, 0, Math.PI * 2);
