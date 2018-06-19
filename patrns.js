@@ -138,22 +138,57 @@
      * in direction teta draws a disance long line stroke wide.
      * At the head returning the drawing head back to the starting point
      */
-    function drawLine(ctx, teta, distance, dis_from_center, stroke) {
-      ctx.beginPath();
+    function drawLine(ctx, teta, length, dis_from_center, stroke) {
       const factor_x = Math.cos(teta),
-            factor_y = Math.sin(teta);
-      ctx.moveTo(dis_from_center * factor_x, dis_from_center * factor_y);
-      ctx.lineTo(distance * factor_x, distance * factor_y);
-      ctx.moveto(0,0);
+            factor_y = Math.sin(teta),
+            distance = length + dis_from_center;
+      console.log('Drawing at ', teta, ' for ', length, dis_from_center, Math.round(dis_from_center * factor_x), Math.round(dis_from_center * factor_y));
+      ctx.beginPath();
+      ctx.moveTo(Math.round(dis_from_center * factor_x), Math.round(dis_from_center * factor_y));
+      ctx.lineTo(Math.round(distance * factor_x), Math.round(distance * factor_y));
+      ctx.strokeStyle = '#000000';
+      ctx.lineWidth = 2;
+      ctx.stroke();
     }
-    
+   
+    function Lines(selector, count, length, distance_from_center, variaty, coloration) {
+      /**
+       * Draws a circle of lines around the center.
+       * selector - The selector of the canvas, required
+       * count - The number of lines to draw
+       * Length - The length of the line to draw. px
+       * distance_from the center - How far from the center to start drawing. px
+       * variaty - How much random viarity to add to distance_from_center. px
+       * coloration - type of coloration to use. See coloration info for more details
+       */
+      this.canvas = new Canvas(selector);
+      this.count = (count)? count : 50;
+      this.length = (length)? length : 200.0;
+      this.distance_from_center = (distance_from_center)? distance_from_center : 30.0;
+      this.variaty = (variaty)? variaty : 5;
+      this.coloration = (coloration)? coloration : 'bw';
+    }
+    Lines.prototype.draw = function draw() {
+      const ctx = this.canvas.getContext();
+      const step = 2 * Math.PI / this.count;  // The angle for each line
+      // Moving to the center of the canvas
+      ctx.translate(this.canvas.elem.width / 2, this.canvas.elem.height / 2);
+      let variation = 0;
+      for (let i = 0;i < this.count; i++) {
+        variation = Math.round(Math.random() * this.variaty - (this.variaty / 2));
+        drawLine(ctx, i * step, this.length, this.distance_from_center + variation);
+      }
+    }
+
     return {
       // Setting up polygons
       polygons: new Polygons('#polygons', 2000, 30),
       dots: new Dots('#dots', 60, 10),
+      lines: new Lines('#lines'),
       run: function run() {
         this.polygons.draw();
         this.dots.draw();
+        this.lines.draw();
       }
     };
   }
