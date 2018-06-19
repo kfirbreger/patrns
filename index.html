@@ -1,11 +1,15 @@
 <!doctype html>
 <head>
+    <meta charset="utf-8">
+    <meta name="author" content="Kfir Breger">
+    <meta name="description" content="Generate patterns with javascript">
     <title>Patrns</title>
+    <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Comfortaa">
     <link rel="stylesheet" href="patrns.css" type="text/css" media="screen" charset="utf-8" />
 </head>
 <body>
     <nav id="controls">
-        <ul class="controls">
+        <ul class="controls" style="display: none;">
             <li>
                 <label id="sides-label" for="sides">Edges</label>
                 <input type="range" value="6" min="3" max="12" step=1 id="sides" />
@@ -18,17 +22,45 @@
         </ul>
     </nav>
     <main id="container" class="middle">
-      <section id="sec-polygons">
-        <h2 class="section_title">Polygons</h2>
-        <canvas id="polygons" width="640" height="480" title="Polygons"></canvas>
-      </section>
-      <section id="sec-dots">
-        <h2 class="section_title">Dots</h2>
-        <canvas id="dots" width="640" height="480" title="Dots"></canvas>
-      </section>
+        <section id="sec-title" class="middle">
+            <h1>Patrns</h1>
+            <div class="patrns-list">
+                <div class="patrns-item">
+                    <a href="#sec-polygons" class="js-sec-switch">
+                        <svg id="sec-polygons-svg" xmlns="http://www.w3.org/2000/svg" version="1.1" width="50" height="50" xmlns:xlink="http://www.w3.org/1999/xlink">
+                            <polygon transform="translate(2, 12)" class="shape" points="30,15 22.5,28 7.5,28 0,15 7.5,2 22.5,2"></polygon>
+                        </svg>
+                    </a>
+                </div><div class="patrns-item">
+                    <a href="#sec-dots" class="js-sec-switch">
+                        <svg id="sec-dots-svg" xmlns="http://www.w3.org/2000/svg" version="1.1" width="50" height="50" xmlns:xlink="http://www.w3.org/1999/xlink">
+                            <circle class="shape"  r="13" cx="25" cy="25"></circle>
+                        </svg>
+                    </a>
+                </div><div class="patrns-item">
+                    <a href="#sec-lines" class="js-sec-switch">
+                        <svg id="sec-dots-svg" xmlns="http://www.w3.org/2000/svg" version="1.1" width="50" height="50" xmlns:xlink="http://www.w3.org/1999/xlink">
+                            <line class="shape" x1="10" y1="10" x2="40" y2="40"></line>
+                        </svg>
+                    </a>
+                </div>
+            </div>
+        </section>
+        <section id="sec-polygons" class="art-section middle hidden">
+            <h2 class="section_title">Polygons</h2>
+            <canvas id="polygons" width="640" height="480" title="Polygons"></canvas>
+        </section>
+        <section id="sec-dots" class="art-section middle hidden">
+            <h2 class="section_title">Dots</h2>
+            <canvas id="dots" width="640" height="480" title="Dots"></canvas>
+        </section>
+        <section id="sec-lines" class="art-section middle hidden">
+            <h2 class="section_title">Lines</h2>
+            <canvas id="lines" width="512" height="512" title="Lines"></canvas>
+        </section>
     </main>
-
     <script src="patrns.js"></script>
+    <script src="interactions.js"></script>
     <script>
         Art.run();
     </script>
