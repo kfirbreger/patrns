@@ -27,6 +27,9 @@
     section.classList.remove('hidden');
   }
 
+  //======================================
+  //        Control Panel
+  //======================================
   function createControlItem(control_id, params) {
     /**
      * Creates a DOM input element based on the parameters given (See readme for more details on format)
@@ -44,12 +47,37 @@
     input.setAttribute('data-param-name', params['object_parameter']);
     return input;
   }
-  function createControlPanel(controls) {
-  }
-  function cleanControlPanel() {
-    const controls = document.getElementById('controls').getElementsByTagName('input');
 
+  function createControlPanel(controls) {
+    /**
+     * Using the controls config create the full set of control elements
+     */
+    const controls_container = document.getElementById('controls');
+    let elem;
+    for (let control_id in Object.keys(controls)) {
+      elem = createControlItem(control_id, controls[control_id]);
+      controls_container.appendChild(elem);
+    }
   }
+
+  function cleanControlPanel() {
+    /**
+     * Clears the elements in the control panel
+     */
+    const controls = document.getElementById('controls');
+    // Deleting all the elements below it
+    // See https://jsperf.com/innerhtml-vs-removechild/15 for performace on cleaning
+    while (controls.lastChild) {
+      controls.removeChild(controls.lastChild);
+    }
+  }
+
+  function updateControlPanel(active_id) {
+    const controls = window.Art[active_id].getControls()
+    cleanControlPanel();
+    createControlPanel(controls);
+  }
+
   // Making canvas click a redraw
   // This works by having the arts parameter and the canvas id be the same
   // @TODO make more robust by adding a data-parameter attribute
