@@ -46,6 +46,10 @@
   }
   function createControlPanel(controls) {
   }
+  function cleanControlPanel() {
+    const controls = document.getElementById('controls').getElementsByTagName('input');
+
+  }
   // Making canvas click a redraw
   // This works by having the arts parameter and the canvas id be the same
   // @TODO make more robust by adding a data-parameter attribute
