@@ -139,8 +139,14 @@
      * At the head returning the drawing head back to the starting point
      */
     function drawLine(ctx, teta, distance, dis_from_center, stroke) {
-      return;
+      ctx.beginPath();
+      const factor_x = Math.cos(teta),
+            factor_y = Math.sin(teta);
+      ctx.moveTo(dis_from_center * factor_x, dis_from_center * factor_y);
+      ctx.lineTo(distance * factor_x, distance * factor_y);
+      ctx.moveto(0,0);
     }
+    
     return {
       // Setting up polygons
       polygons: new Polygons('#polygons', 2000, 30),
