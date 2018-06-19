@@ -142,7 +142,6 @@
       const factor_x = Math.cos(teta),
             factor_y = Math.sin(teta),
             distance = length + dis_from_center;
-      console.log('Drawing at ', teta, ' for ', length, dis_from_center, Math.round(dis_from_center * factor_x), Math.round(dis_from_center * factor_y));
       ctx.beginPath();
       ctx.moveTo(Math.round(dis_from_center * factor_x), Math.round(dis_from_center * factor_y));
       ctx.lineTo(Math.round(distance * factor_x), Math.round(distance * factor_y));
