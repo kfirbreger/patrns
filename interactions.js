@@ -25,12 +25,14 @@
     section = document.getElementById(sectionId);
     section.classList.add('active');
     section.classList.remove('hidden');
+    updateControlPanel();
+
   }
 
   //======================================
   //        Control Panel
   //======================================
-  function createControlItem(control_id, params) {
+  function createControlItem(params) {
     /**
      * Creates a DOM input element based on the parameters given (See readme for more details on format)
      * If the creation falis returns null, otherwise returns the dom element.
@@ -38,13 +40,20 @@
      */
     const input = document.createElement('input')
     // @TODO add check that the ID does not yet exist
-    for (let attr of ['type', 'min_value', 'max_value', 'value', 'class']) {
+    for (let attr of ['id', 'type', 'min_value', 'max_value', 'value', 'class']) {
       if (params[attr] !== undefined) {
         input.setAttribute(attr, params[attr]);
       }
     }
-    input.setAttribute('id', control_id);
     input.setAttribute('data-param-name', params['object_parameter']);
+    // Adding a label if available
+    if (params['label'] !== undefined) {
+      const label = document.createElement('label');
+      label.setAttribute('for', params['id']);
+      label.innerHTML = params['label'];
+      label.appendChild(input);
+      return label;
+    }
     return input;
   }
 
@@ -52,12 +61,14 @@
     /**
      * Using the controls config create the full set of control elements
      */
-    const controls_container = document.getElementById('controls');
+    const controls_container = document.getElementById('controls');  // Getting the controls container
     let elem;
-    for (let control_id in Object.keys(controls)) {
-      elem = createControlItem(control_id, controls[control_id]);
+    // Creating controls
+    controls.forEach(function(control) {
+      elem = createControlItem(control);
+      console.log(elem)
       controls_container.appendChild(elem);
-    }
+    });
   }
 
   function cleanControlPanel() {
@@ -72,7 +83,9 @@
     }
   }
 
-  function updateControlPanel(active_id) {
+  function updateControlPanel() {
+    const active_id = (document.getElementsByClassName('active')[0]).getElementsByTagName('canvas')[0].id;
+    console.log('Updating controls for ', active_id);
     const controls = window.Art[active_id].getControls()
     cleanControlPanel();
     createControlPanel(controls);

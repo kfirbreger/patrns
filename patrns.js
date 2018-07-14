@@ -94,6 +94,26 @@
         drawPolygon(ctx, pos[0], pos[1], 6,this.size, color);
       }
     };
+    Polygons.prototype.getControls = function controls() {
+      return [
+        {
+          id: "poly_count",
+          label: "Count",
+          type: "range",
+          min_value: 100,
+          max_value: 10000,
+          value: 1000
+        },
+        {
+          id: "sides",
+          label: "Sides",
+          type: "range",
+          min_value: 3,
+          max_value: 12,
+          value: 6
+        }
+      ]
+    }
     /**
      * Dots
      */
@@ -119,18 +139,18 @@
       const x_count = Math.round(ratio * y_count);
       // y_count = Math.round(y_count);
       // Updating the count
-      count = Math.round(x_count) * Math.round(y_count);
+      let actual_count = Math.round(x_count) * Math.round(y_count);
       const step = this.canvas.elem.width / x_count;
       let x = (this.canvas.elem.width - step * x_count) / 2,
           y =  - (this.canvas.elem.height - step * y_count) / 2;
-      while (count > 0) {
-        if ((count % x_count) === 0) {
+      while (actual_count > 0) {
+        if ((actual_count % x_count) === 0) {
           x = step / 2;
           y += step;
         }
         drawDot(ctx, x, y, this.radius, createColor(0.5, 0.7));
         x += step;
-        count -= 1;
+        actual_count -= 1;
       }
     }
     /**
