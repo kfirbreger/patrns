@@ -40,7 +40,7 @@
      */
     const input = document.createElement('input')
     // @TODO add check that the ID does not yet exist
-    for (let attr of ['id', 'type', 'min_value', 'max_value', 'value', 'class']) {
+    for (let attr of ['id', 'type', 'min', 'max', 'value', 'class', 'step']) {
       if (params[attr] !== undefined) {
         input.setAttribute(attr, params[attr]);
       }

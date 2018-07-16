@@ -14,8 +14,9 @@ to maximaize the felxibiluty in creating new pattern canvases, a controll build 
         id: The id of the input field
         label: The label for the input field
         type: The input type 'range', 'checkbox', 'text', etc
-        min_value: range min value. required for range, ignored for the rest
-        max_value: range max value. required for range, ignored for the rest
+        min: range min value. required for range, ignored for the rest
+        max: range max value. required for range, ignored for the rest
+        step: The step size in the range
         data_type: checks that the data matches the type if this is filled. (int, float, string etc)
         value: The (initial) value of the field
         class: css classes to add to the element. added as is

@@ -100,16 +100,18 @@
           id: "poly_count",
           label: "Count",
           type: "range",
-          min_value: 100,
-          max_value: 10000,
+          min: 100,
+          max: 10000,
+          step: 100,
           value: 1000
         },
         {
           id: "sides",
           label: "Sides",
           type: "range",
-          min_value: 3,
-          max_value: 12,
+          min: 3,
+          max: 12,
+          step: 1,
           value: 6
         }
       ]
