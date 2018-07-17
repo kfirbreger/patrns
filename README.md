@@ -4,7 +4,7 @@ Creating some nice patterns and exploring svg with vanila javacript
 ## Using
 
 ## Code
-This is intentaionally all done in vanilla javascript with no library or build process. Its all part of the intention.
+This is intentaionally all done in vanilla javascript with no library or build process.
 
 ### How controls work
 to maximaize the felxibiluty in creating new pattern canvases, a controll build system is rolled into the the related object prototype. The controls function returns an array that represets the configuration required to build the control panel for the cavnas being viewed. The followig is the format for the control object
