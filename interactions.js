@@ -32,7 +32,7 @@
   //======================================
   //        Control Panel
   //======================================
-  function createControlItem(params) {
+  function createControlItem(params, active_id) {
     /**
      * Creates a DOM input element based on the parameters given (See readme for more details on format)
      * If the creation falis returns null, otherwise returns the dom element.
@@ -45,7 +45,19 @@
         input.setAttribute(attr, params[attr]);
       }
     }
-    input.setAttribute('data-param-name', params['object_parameter']);
+    // Binding to variable if needed
+    if (params['bind']) {
+      input.onchange = function(evt) {
+        if (evt.srcElement.valueAsNumber !== null) {
+          window.Art[active_id][params['bind']] = evt.srcElement.valueAsNumber;
+        } else {
+          window.Art[active_id][params['bind']] = evt.srcElement.value;
+        }
+        window.Art[active_id].draw();
+      }
+      // Overwriting the value given by value
+      input.setAttribute('value', window.Art[active_id][params['bind']]);
+    }  
     // Adding a label if available
     if (params['label'] !== undefined) {
       const label = document.createElement('label');
@@ -57,7 +69,7 @@
     return input;
   }
 
-  function createControlPanel(controls) {
+  function createControlPanel(controls, active_id) {
     /**
      * Using the controls config create the full set of control elements
      */
@@ -65,7 +77,7 @@
     let elem;
     // Creating controls
     controls.forEach(function(control) {
-      elem = createControlItem(control);
+      elem = createControlItem(control, active_id);
       console.log(elem)
       controls_container.appendChild(elem);
     });
@@ -84,13 +96,17 @@
   }
 
   function updateControlPanel() {
-    const active_id = (document.getElementsByClassName('active')[0]).getElementsByTagName('canvas')[0].id;
-    console.log('Updating controls for ', active_id);
-    const controls = window.Art[active_id].getControls()
+    const active_id = getActiveArtObjectId();
+    const controls = window.Art[active_id].getControls();
     cleanControlPanel();
-    createControlPanel(controls);
+    createControlPanel(controls, active_id);
   }
 
+  function getActiveArtObjectId() {
+    // This wil probably change in the future. Encapsuling in its own
+    // function make that change more managable
+    return (document.getElementsByClassName('active')[0]).getElementsByTagName('canvas')[0].id;
+  }
   // Making canvas click a redraw
   // This works by having the arts parameter and the canvas id be the same
   // @TODO make more robust by adding a data-parameter attribute

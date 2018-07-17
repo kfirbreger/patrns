@@ -69,6 +69,7 @@
       this.canvas = new Canvas(selector);
       this.polyCount = polyCount;
       this.size = size;
+      this.sides = 6
       // Saving function calls
       this.max_x = this.canvas.elem.width;
       this.max_y = this.canvas.elem.height;
@@ -91,10 +92,10 @@
       for (let i = 0;i < this.polyCount;i++) {
         pos = this._createLocation();
         color = createColor();
-        drawPolygon(ctx, pos[0], pos[1], 6,this.size, color);
+        drawPolygon(ctx, pos[0], pos[1], this.sides,this.size, color);
       }
     };
-    Polygons.prototype.getControls = function controls() {
+    Polygons.prototype.getControls = function polyControls() {
       return [
         {
           id: "poly_count",
@@ -103,7 +104,7 @@
           min: 100,
           max: 10000,
           step: 100,
-          value: 1000
+          bind: 'polyCount'
         },
         {
           id: "sides",
@@ -112,7 +113,7 @@
           min: 3,
           max: 12,
           step: 1,
-          value: 6
+          bind: 'sides'
         }
       ]
     }
@@ -131,6 +132,9 @@
       this.canvas = new Canvas(selector);
       this.count = count;
       this.radius = radius;
+      // Saving function calls
+      this.max_x = this.canvas.elem.width;
+      this.max_y = this.canvas.elem.height;
     }
     Dots.prototype.draw = function draw() {
       const ctx = this.canvas.getContext();
@@ -154,6 +158,27 @@
         x += step;
         actual_count -= 1;
       }
+    }
+    Dots.prototype.getControls = function dotsControls() {
+      return [
+        {
+          id: 'dotCount',
+          label: 'Count',
+          type: 'range',
+          min: 4,
+          max: 100,
+          step: 4,
+          bind: 'count'
+        }, {
+          id: 'dotSize',
+          label: 'Size',
+          type: 'range',
+          min: 1,
+          max: 30,
+          step: 1,
+          bind: 'radius'
+        }
+      ]
     }
     /**
      * Draws a line by in the direction teta. After moving dis_from center

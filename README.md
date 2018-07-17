@@ -19,9 +19,10 @@ to maximaize the felxibiluty in creating new pattern canvases, a controll build 
         step: The step size in the range
         data_type: checks that the data matches the type if this is filled. (int, float, string etc)
         value: The (initial) value of the field
+        bind: If the value needs to be binded to a certain variable, give the variable here. If
+                this value is given, it overwrites the value in the value field
         class: css classes to add to the element. added as is
         value_list: List of values for a drop down, ignored for the rest
-        object_parameter: The name of the parameter on the object that is changed by this control
     }
 ]
 ````
