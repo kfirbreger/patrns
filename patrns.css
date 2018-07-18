@@ -5,12 +5,13 @@ main, nav, {
 canvas {
   display: inline-block;
   zoom: 1;
-  border: 1px solid #000;
+  border: 8pt solid #000;
 }
 
 h1 {
   font-size: 2em;
-  margin: .67em 0
+  margin-top: 15%;
+  margin-bottom: 15%;
 }
 
 h2 {
@@ -63,7 +64,7 @@ body {
 
 .patrns-item {
   width: 10em;
-  float: left;
+  display: inline-block;
 }
 
 .hidden {
@@ -74,4 +75,18 @@ body {
   stroke: #101010;
   stroke-width: 3;
   fill: none;
+}
+
+/* Adding mobile stuff */
+@media (max-width: 580pt) {
+  h1 {
+    margin-top: 10%;
+    margin-bottom: 10%;
+  }
+  .patrns-item {
+    display: block;
+    margin-left: auto;
+    margin-right: auto;
+    margin-bottom: 10%
+  }
 }

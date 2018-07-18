@@ -69,6 +69,7 @@
       this.canvas = new Canvas(selector);
       this.polyCount = polyCount;
       this.size = size;
+      this.sides = 6
       // Saving function calls
       this.max_x = this.canvas.elem.width;
       this.max_y = this.canvas.elem.height;
@@ -91,9 +92,31 @@
       for (let i = 0;i < this.polyCount;i++) {
         pos = this._createLocation();
         color = createColor();
-        drawPolygon(ctx, pos[0], pos[1], 6,this.size, color);
+        drawPolygon(ctx, pos[0], pos[1], this.sides,this.size, color);
       }
     };
+    Polygons.prototype.getControls = function polyControls() {
+      return [
+        {
+          id: "poly_count",
+          label: "Count",
+          type: "range",
+          min: 100,
+          max: 10000,
+          step: 100,
+          bind: 'polyCount'
+        },
+        {
+          id: "sides",
+          label: "Sides",
+          type: "range",
+          min: 3,
+          max: 12,
+          step: 1,
+          bind: 'sides'
+        }
+      ]
+    }
     /**
      * Dots
      */
@@ -109,6 +132,9 @@
       this.canvas = new Canvas(selector);
       this.count = count;
       this.radius = radius;
+      // Saving function calls
+      this.max_x = this.canvas.elem.width;
+      this.max_y = this.canvas.elem.height;
     }
     Dots.prototype.draw = function draw() {
       const ctx = this.canvas.getContext();
@@ -119,19 +145,40 @@
       const x_count = Math.round(ratio * y_count);
       // y_count = Math.round(y_count);
       // Updating the count
-      count = Math.round(x_count) * Math.round(y_count);
+      let actual_count = Math.round(x_count) * Math.round(y_count);
       const step = this.canvas.elem.width / x_count;
       let x = (this.canvas.elem.width - step * x_count) / 2,
           y =  - (this.canvas.elem.height - step * y_count) / 2;
-      while (count > 0) {
-        if ((count % x_count) === 0) {
+      while (actual_count > 0) {
+        if ((actual_count % x_count) === 0) {
           x = step / 2;
           y += step;
         }
         drawDot(ctx, x, y, this.radius, createColor(0.5, 0.7));
         x += step;
-        count -= 1;
+        actual_count -= 1;
       }
+    }
+    Dots.prototype.getControls = function dotsControls() {
+      return [
+        {
+          id: 'dotCount',
+          label: 'Count',
+          type: 'range',
+          min: 4,
+          max: 100,
+          step: 4,
+          bind: 'count'
+        }, {
+          id: 'dotSize',
+          label: 'Size',
+          type: 'range',
+          min: 1,
+          max: 30,
+          step: 1,
+          bind: 'radius'
+        }
+      ]
     }
     /**
      * Draws a line by in the direction teta. After moving dis_from center
