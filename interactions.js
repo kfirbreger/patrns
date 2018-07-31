@@ -40,7 +40,7 @@
     // DRY
     const button = document.createElement('button');
     button.setAttribute('id', 'close-section');
-    button.setAttribute('value', 'close');
+    button.innerHTML = 'X'; 
     button.onclick = function hideArtSection() {
       hideAll();
       cleanControlPanel();
