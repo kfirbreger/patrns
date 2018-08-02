@@ -15,7 +15,9 @@
       section.classList.remove('active');
       section.classList.add('hidden');
     }
+    document.getElementById('sec-title').classList.add('hidden');
   }
+
   function activateSection(sectionId) {
     // Deactivates the other sections and activates the section id
     hideAll();
@@ -32,13 +34,30 @@
   //======================================
   //        Control Panel
   //======================================
+  function makeCloseButton() {
+    // Generates a close button. This is added here as it is needed by every
+    // control mechanism and cannot, for now, br overwritten
+    // DRY
+    const button = document.createElement('button');
+    button.classList.add('close-button');
+    button.setAttribute('id', 'close-section');
+    button.innerHTML = '<svg viewbox="0 0 40 40"><path class="close-x" d="M 10,10 L 30,30 M 30,10 L 10,30" /></svg>'
+    button.onclick = function hideArtSection() {
+      hideAll();
+      cleanControlPanel();
+      document.getElementById('sec-title').classList.remove('hidden');
+    };
+
+    return button;
+  }
+
   function createControlItem(params, active_id) {
     /**
      * Creates a DOM input element based on the parameters given (See readme for more details on format)
      * If the creation falis returns null, otherwise returns the dom element.
      * It does NOT add the element to the dom
      */
-    const input = document.createElement('input')
+    const input = document.createElement('input');
     // @TODO add check that the ID does not yet exist
     for (let attr of ['id', 'type', 'min', 'max', 'value', 'class', 'step']) {
       if (params[attr] !== undefined) {
@@ -78,9 +97,9 @@
     // Creating controls
     controls.forEach(function(control) {
       elem = createControlItem(control, active_id);
-      console.log(elem)
       controls_container.appendChild(elem);
     });
+    controls_container.appendChild(makeCloseButton());
   }
 
   function cleanControlPanel() {

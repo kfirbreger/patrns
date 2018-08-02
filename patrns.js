@@ -36,6 +36,15 @@
             console.log('Falied to get context from', this.elem);
             return null;
           }
+        },
+        setDimension: function setDimension(axle, size) {
+          try {
+            parseInt(size, 10);
+          } catch {
+            console.log('Dimension size given is not an integer');
+            return null;
+          }
+          this.elem.style[axle] = '' + size + 'px';
         }
       };
     }
