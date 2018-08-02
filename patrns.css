@@ -77,6 +77,20 @@ body {
   fill: none;
 }
 
+.close-button {
+  width: 40px;
+  height: 40px;
+  border: 0;
+  background: transparent;
+}
+
+.close-x {
+  stroke: black;
+  fill: transparent;
+  stroke-linecap: round;
+  stroke-width: 5;
+}
+
 /* Adding mobile stuff */
 @media (max-width: 580pt) {
   h1 {

@@ -39,8 +39,9 @@
     // control mechanism and cannot, for now, br overwritten
     // DRY
     const button = document.createElement('button');
+    button.classList.add('close-button');
     button.setAttribute('id', 'close-section');
-    button.innerHTML = 'X'; 
+    button.innerHTML = '<svg viewbox="0 0 40 40"><path class="close-x" d="M 10,10 L 30,30 M 30,10 L 10,30" /></svg>'
     button.onclick = function hideArtSection() {
       hideAll();
       cleanControlPanel();
