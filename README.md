@@ -5,7 +5,7 @@ Creating some nice patterns and exploring svg with vanila javacript
 There is no build here. The static files can just be set someplace accesible for a web server. Alternativly, use the very simple docker file included to create a container
 
 ## Code
-This is intentaionally all done in vanilla javascript with no library or build process.
+This is intentaionally all done in vanilla javascript with no library or build process. Although at some time, webpack might be inroduced
 
 ### How controls work
 to maximaize the felxibiluty in creating new pattern canvases, a controll build system is rolled into the the related object prototype. The controls function returns an array that represets the configuration required to build the control panel for the cavnas being viewed. The followig is the format for the control object
