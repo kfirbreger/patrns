@@ -1,5 +1,5 @@
 # Patrns
-Creating some nice patterns and exploring svg with vanila javacript
+Creating some nice patterns and exploring canvas and svg with vanila javacript
 
 ## Using
 There is no build here. The static files can just be set someplace accesible for a web server. Alternativly, use the very simple docker file included to create a container
