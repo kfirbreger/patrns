@@ -247,6 +247,16 @@
       ctx.translate(-this.canvas.elem.width / 2, -this.canvas.elem.height / 2);
     }
 
+    function Voronoi(selector, count, algorithm) {
+      this.canvas = new Canvas(selector);
+      this.max_x = this.canvas.elem.width;
+      this.max_y = this.canvas.elem.height;
+      this.count = (count)? count: 10;
+      this.algorithm = (algorithm)? algorithm: 'Euclidean';
+    }
+    Voronoi.prototype.draw() {
+    }
+
     return {
       // Setting up polygons
       polygons: new Polygons('#polygons', 2000, 30),
