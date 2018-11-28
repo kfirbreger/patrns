@@ -15,10 +15,9 @@ h1 {
 }
 
 h2 {
-  font-size: 1.5rem;
+  font-size: 1.75rem;
   margin: .83rem 0;
 }
-
 
 body {
   font-family: 'Comfortaa', serif;
@@ -46,9 +45,15 @@ body {
 }
 
 .controls label {
-  font-size: 0.9rem;
+  margin-left: 1rem;
+  font-size: 1rem;
   position: relative;
-  top: -0.25rem;
+}
+
+.controls input {
+  margin-left: 0.4rem;
+  position: relative;
+  top: 0.2rem;
 }
 
 #sec-title {
@@ -82,6 +87,8 @@ body {
   height: 40px;
   border: 0;
   background: transparent;
+  position: relative;
+  top: 0.5rem;
 }
 
 .close-x {
