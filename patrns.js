@@ -232,6 +232,8 @@
     Lines.prototype.draw = function draw() {
       const ctx = this.canvas.getContext();
       const step = 2 * Math.PI / this.count;  // The angle for each line
+      // Clearing the canvas
+      ctx.clearRect(0, 0, this.max_x, this.max_y);
       // Moving to the center of the canvas
       ctx.translate(this.canvas.elem.width / 2, this.canvas.elem.height / 2);
       let variation = 0;
@@ -239,6 +241,8 @@
         variation = Math.round(Math.random() * this.variaty - (this.variaty / 2));
         drawLine(ctx, i * step, this.length, this.distance_from_center + variation);
       }
+      // Returning to the upper corner
+      ctx.translate(-this.canvas.elem.width / 2, -this.canvas.elem.height / 2);
     }
 
     return {
