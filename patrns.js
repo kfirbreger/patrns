@@ -223,6 +223,8 @@
        * coloration - type of coloration to use. See coloration info for more details
        */
       this.canvas = new Canvas(selector);
+      this.max_x = this.canvas.elem.width;
+      this.max_y = this.canvas.elem.height;
       this.count = (count)? count : 50;
       this.length = (length)? length : 200.0;
       this.distance_from_center = (distance_from_center)? distance_from_center : 30.0;
