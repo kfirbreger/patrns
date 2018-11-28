@@ -7,13 +7,17 @@
     const golden_ration = 1.61803399,  // Proxemation of the golden ratio
         document = window.document;  // Making it easier to work with document
    
-   function createColor(saturation = 0.5, luminance = 0.4) {
+   function createColor(saturation = 0.6, luminance = 0.4, alpha = 1) {
       // Create a random color
       // @TODO add parameter verification
-     const h = Math.round(Math.random() * 360),
+      const h = Math.round(Math.random() * 360),
             s = Math.round(((Math.random() * (1.0 - saturation)) + saturation) * 100),
-            l = Math.round(((Math.random() * 0.2) + luminance) * 100);
-      return 'hsl(' + h + ',' + s + '%, ' + l + '%)';
+            l = Math.round(((Math.random() * 0.3) + luminance) * 100);
+      let a = Math.random() * Math.random() * alpha;
+      if (a > 1.0) {
+        a = 1;
+      }
+      return 'hsl(' + h + ',' + s + '%, ' + l + '%, ' + a + ')';
     }
 
     function Canvas(selector) {
@@ -97,11 +101,13 @@
       // Drawing
       let pos = null,
           color = null,
-          poly = null;
+          poly = null,
+          scaling = null;
       for (let i = 0;i < this.polyCount;i++) {
         pos = this._createLocation();
         color = createColor();
-        drawPolygon(ctx, pos[0], pos[1], this.sides,this.size, color);
+        scaling = Math.random();
+        drawPolygon(ctx, pos[0], pos[1], this.sides, this.size * scaling, color);
       }
     };
     Polygons.prototype.getControls = function polyControls() {
@@ -163,7 +169,7 @@
           x = step / 2;
           y += step;
         }
-        drawDot(ctx, x, y, this.radius, createColor(0.5, 0.7));
+        drawDot(ctx, x, y, this.radius, createColor(0.5, 0.7, 10));
         x += step;
         actual_count -= 1;
       }
