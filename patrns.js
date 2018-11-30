@@ -252,7 +252,13 @@
       this.max_x = this.canvas.elem.width;
       this.max_y = this.canvas.elem.height;
       this.count = (count)? count: 10;
+      this.algorithms = {}
       this.algorithm = (algorithm)? algorithm: 'Euclidean';
+    }
+
+    Vonoroi.algorithms.Euclidean = function(method) {
+      // Euclidan distance algorithm
+      
     }
     Voronoi.prototype.draw() {
     }
@@ -262,10 +268,12 @@
       polygons: new Polygons('#polygons', 2000, 30),
       dots: new Dots('#dots', 60, 10),
       lines: new Lines('#lines'),
+      voronoi: new Voronoi('#voronoi'),
       run: function run() {
         this.polygons.draw();
         this.dots.draw();
         this.lines.draw();
+        this.voronoi.draw();
       }
     };
   }
