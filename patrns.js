@@ -257,9 +257,33 @@
       this.algorithm = (algorithm)? algorithm: 'Brute';
     }
 
+    Vonoro.prototype.euclidean = function(p1, p2) {
+      return Math.sqrt((p2[0] - p1[0])**2 + (p2[1] + p1[1])**2);
+    }
+
     Vonoroi.algorithms.Brute = function(distanceFunction) {
       // Brute force calculation. Going through every point and choosing the distance to every point and then deciding
-      for (point 
+      const d_max = distanceFunction((0,0), (this.max_x, this.max_y));  // The maximum possible distance for this measuring method 
+      let d_min, d, closest;
+      const ctx = this.canvas.getContext();
+      
+      for (let x = 0; x < this.max_x; x++) {
+        for (let y = 0; y < this.max_y; y++) {
+          d_min = d_max;
+          closest = null;
+          for (let i = 0; i < this.count; i++) {
+            d = distanceFunction((x, y), this.points[i]);
+            if (d < d_min) {
+              d_min = d;
+              closest = i;
+            }
+          }
+          // Drawing the dot
+          ctx.fillStyle = this.points[closest];
+          ctx.fillRect(x, y, 1, 1);
+        }
+      }
+
     }
 
     Vonoroi.prototype.createPoints() {
@@ -268,11 +292,14 @@
       for(let i = 0;i < this.count;i++) {
         x = Math.floor(this.max_x * Math.random());
         y = Math.floor(this.max_y * Math.random());
-        this.points.push((x, y));
+        this.points.push((x, y, createColor()));
       }
     }
 
     Voronoi.prototype.draw() {
+      // Draw a Voronoi diagram
+      this.createPoints();
+      this.algorithms[this.algorithm](this.euclidean);
     }
 
     return {
