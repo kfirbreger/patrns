@@ -252,14 +252,26 @@
       this.max_x = this.canvas.elem.width;
       this.max_y = this.canvas.elem.height;
       this.count = (count)? count: 10;
+      this.points = [];
       this.algorithms = {}
-      this.algorithm = (algorithm)? algorithm: 'Euclidean';
+      this.algorithm = (algorithm)? algorithm: 'Brute';
     }
 
-    Vonoroi.algorithms.Euclidean = function(method) {
-      // Euclidan distance algorithm
-      
+    Vonoroi.algorithms.Brute = function(distanceFunction) {
+      // Brute force calculation. Going through every point and choosing the distance to every point and then deciding
+      for (point 
     }
+
+    Vonoroi.prototype.createPoints() {
+      // Generates the points to measure the distance from
+      let x, y;
+      for(let i = 0;i < this.count;i++) {
+        x = Math.floor(this.max_x * Math.random());
+        y = Math.floor(this.max_y * Math.random());
+        this.points.push((x, y));
+      }
+    }
+
     Voronoi.prototype.draw() {
     }
 
