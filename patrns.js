@@ -289,12 +289,20 @@
       this.algorithm = (algorithm)? algorithm: 'Brute';
     }
 
-    Voronoi.prototype.euclidean = function euclideanDistance(p1, p2) {
-      return Math.sqrt((p2[0] - p1[0])**2 + (p2[1] - p1[1])**2);
+    // Distance functions
+    Voronoi.prototype.euclidean = function euclideanDistance(p, q) {
+      return Math.sqrt((p[0] - q[0])**2 + (p[1] - q[1])**2);
+    }
+    Voronoi.prototype.manhattan = function manhattanDistance(p, q) {
+      return Math.abs(p[0] - q[0]) + Math.abs(p[1] - q[1])
+    }
+    Voronoi.prototype.chebyshev = function chebyshevDistance(p, q) {
+      return Math.max(Math.abs(p[0] - q[0]), Math.abs(p[1] - q[1]))
     }
 
     Voronoi.prototype.createPoints = function vonoroiCreatePoints() {
       // Generates the points to measure the distance from
+      this.points = [];
       let x, y;
       for(let i = 0;i < this.count;i++) {
         x = Math.floor(this.max_x * Math.random());
@@ -307,7 +315,7 @@
       // Draw a Voronoi diagram
       this.createPoints();
       const ctx = this.canvas.getContext();
-      this.algorithms[this.algorithm](this.points, ctx, this.euclidean, this.max_x, this.max_y);
+      this.algorithms[this.algorithm](this.points, ctx, this.chebyshev, this.max_x, this.max_y);
     }
 
     return {
