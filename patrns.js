@@ -174,6 +174,8 @@
         actual_count -= 1;
       }
     }
+
+    // Adding dots controls
     Dots.prototype.getControls = function dotsControls() {
       return [
         {
@@ -231,7 +233,7 @@
       this.variaty = (variaty)? variaty : 5;
       this.coloration = (coloration)? coloration : 'bw';
     }
-    Lines.prototype.draw = function draw() {
+    Lines.prototype.draw = function linesDraw() {
       const ctx = this.canvas.getContext();
       const step = 2 * Math.PI / this.count;  // The angle for each line
       // Clearing the canvas
@@ -247,15 +249,110 @@
       ctx.translate(-this.canvas.elem.width / 2, -this.canvas.elem.height / 2);
     }
 
+    const Algorithms = {
+      Brute: function BruteAlgorithm(points, ctx, distanceFunction, max_x, max_y) {
+        // Brute force calculation. Going through every point and choosing the distance to every point and then deciding
+        const d_max = distanceFunction([0,0], [max_x, max_y]);  // The maximum possible distance for this measuring method 
+        const count = points.length;
+        let d_min, d, closest;
+        
+        for (let x = 0; x < max_x; x++) {
+          for (let y = 0; y < max_y; y++) {
+            d_min = d_max;
+            closest = null;
+            for (let i = 0; i < count; i++) {
+              d = distanceFunction([x, y], points[i]);
+              if (d < d_min) {
+                d_min = d;
+                closest = i;
+              }
+            }
+            // Drawing the dot
+            ctx.fillStyle = points[closest][2];
+            ctx.fillRect(x, y, 1, 1);
+          }
+        }
+        // Now draw the actual points
+        for (let i = 0; i < count; i++) {
+            ctx.fillStyle = points[i][2];
+            //ctx.fillStyle = '#000000';
+            ctx.fillRect(points[i][0] - 3, points[i][1] - 3, 3, 3);
+        }
+      }
+    }
+
+    function Voronoi(selector, count, algorithm, distance) {
+      this.canvas = new Canvas(selector);
+      this.max_x = this.canvas.elem.width;
+      this.max_y = this.canvas.elem.height;
+      this.count = (count)? count: 20;
+      this.points = [];
+      this.algorithms = Algorithms;
+      this.algorithm = (algorithm)? algorithm : 'Brute';
+      this.distance = (distance)? distance : 'euclidean';
+    }
+
+    // Distance functions
+    Voronoi.prototype.euclidean = function euclideanDistance(p, q) {
+      return Math.sqrt((p[0] - q[0])**2 + (p[1] - q[1])**2);
+    }
+    Voronoi.prototype.manhattan = function manhattanDistance(p, q) {
+      return Math.abs(p[0] - q[0]) + Math.abs(p[1] - q[1])
+    }
+    Voronoi.prototype.chebyshev = function chebyshevDistance(p, q) {
+      return Math.max(Math.abs(p[0] - q[0]), Math.abs(p[1] - q[1]))
+    }
+
+    Voronoi.prototype.getControls = function voronoiControls() {
+      return [
+        {
+          id: 'voronoi-count',
+          label: 'Count',
+          type: 'range',
+          min: 5,
+          max: 50,
+          step: 5,
+          bind: 'count'
+        }, {
+          id: 'voronoi-distance',
+          label: 'Distance Function',
+          type: 'select',
+          value: 'euclidean',
+          value_list: ['euclidean', 'manhattan', 'chebyshev'],
+          bind: 'distance'
+        }
+      ];
+    }
+
+    Voronoi.prototype.createPoints = function vonoroiCreatePoints() {
+      // Generates the points to measure the distance from
+      this.points = [];
+      let x, y;
+      for(let i = 0;i < this.count;i++) {
+        x = Math.floor(this.max_x * Math.random());
+        y = Math.floor(this.max_y * Math.random());
+        this.points.push([x, y, createColor(0.8, 0.5, 100000)]);
+      }
+    }
+
+    Voronoi.prototype.draw = function vonoroiDraw() {
+      // Draw a Voronoi diagram
+      this.createPoints();
+      const ctx = this.canvas.getContext();
+      this.algorithms[this.algorithm](this.points, ctx, this[this.distance], this.max_x, this.max_y);
+    }
+
     return {
       // Setting up polygons
       polygons: new Polygons('#polygons', 2000, 30),
       dots: new Dots('#dots', 60, 10),
       lines: new Lines('#lines'),
+      voronoi: new Voronoi('#voronoi'),
       run: function run() {
         this.polygons.draw();
         this.dots.draw();
         this.lines.draw();
+        this.voronoi.draw();
       }
     };
   }
