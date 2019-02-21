@@ -63,8 +63,11 @@
                         'xml:space="preserve"><g id="file-download"><path d="M395.25,153h-102V0h-153v153h-102l178.5,178.5L395.25,153z' +
                         'M38.25,382.5v51h357v-51H38.25z"/></g></g></svg>'
     button.addEventListener('click', function downloadArtSection() {
-      // @TODO add popup for name
-      const name = 'myimage.png';
+      let name = prompt('Please give a name to your pattern');
+      // Adding png file extension if it was not given in the name
+      if (!name.endsWith('.png')) {
+        name += '.png';
+      }
       button.href = getActiveArtObjectId(true).toDataURL();
       button.download = name;
     });
