@@ -51,6 +51,27 @@
     return button;
   }
 
+  function makeDownloadButton() {
+    // Generates a close button. This is added here as it is needed by every
+    // control mechanism and cannot, for now, br overwritten
+    // DRY
+    const button = document.createElement('a');
+    button.classList.add('dl-button');
+    button.setAttribute('id', 'dl-section');
+    button.innerHTML = '<svg version="1.1" id="Capa_1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink"' +
+                        'x="0px" y="0px" width="25px" height="30px" viewBox="0 0 433.5 433.5" style="enable-background:new 0 0 433.5 433.5;"' +
+                        'xml:space="preserve"><g id="file-download"><path d="M395.25,153h-102V0h-153v153h-102l178.5,178.5L395.25,153z' +
+                        'M38.25,382.5v51h357v-51H38.25z"/></g></g></svg>'
+    button.addEventListener('click', function downloadArtSection() {
+      // @TODO add popup for name
+      const name = 'myimage.png';
+      button.href = getActiveArtObjectId(true).toDataURL();
+      button.download = name;
+    });
+
+    return button;
+  }
+
   function createControlItem(params, active_id) {
     /**
      * Creates a DOM input element based on the parameters given (See readme for more details on format)
@@ -118,6 +139,7 @@
       elem = createControlItem(control, active_id);
       controls_container.appendChild(elem);
     });
+    controls_container.appendChild(makeDownloadButton());
     controls_container.appendChild(makeCloseButton());
   }
 
@@ -140,10 +162,16 @@
     createControlPanel(controls, active_id);
   }
 
-  function getActiveArtObjectId() {
+  function getActiveArtObjectId(elem) {
+    // Returns the id of the active art object
+    // if the optional elem paramter is added, it returns the canvas element instead of the id
     // This wil probably change in the future. Encapsuling in its own
     // function make that change more managable
-    return (document.getElementsByClassName('active')[0]).getElementsByTagName('canvas')[0].id;
+    const canvas = (document.getElementsByClassName('active')[0]).getElementsByTagName('canvas')[0];
+    if (elem) {
+      return canvas;
+    }
+    return canvas.id;
   }
   // Making canvas click a redraw
   // This works by having the arts parameter and the canvas id be the same
