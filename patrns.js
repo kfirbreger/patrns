@@ -174,6 +174,8 @@
         actual_count -= 1;
       }
     }
+
+    // Adding dots controls
     Dots.prototype.getControls = function dotsControls() {
       return [
         {
@@ -279,14 +281,15 @@
       }
     }
 
-    function Voronoi(selector, count, algorithm) {
+    function Voronoi(selector, count, algorithm, distance) {
       this.canvas = new Canvas(selector);
       this.max_x = this.canvas.elem.width;
       this.max_y = this.canvas.elem.height;
       this.count = (count)? count: 20;
       this.points = [];
       this.algorithms = Algorithms;
-      this.algorithm = (algorithm)? algorithm: 'Brute';
+      this.algorithm = (algorithm)? algorithm : 'Brute';
+      this.distance = (distance)? distance : 'euclidean';
     }
 
     // Distance functions
@@ -298,6 +301,27 @@
     }
     Voronoi.prototype.chebyshev = function chebyshevDistance(p, q) {
       return Math.max(Math.abs(p[0] - q[0]), Math.abs(p[1] - q[1]))
+    }
+
+    Voronoi.prototype.getControls = function voronoiControls() {
+      return [
+        {
+          id: 'voronoi-count',
+          label: 'Count',
+          type: 'range',
+          min: 5,
+          max: 50,
+          step: 5,
+          bind: 'count'
+        }, {
+          id: 'voronoi-distance',
+          label: 'Distance Function',
+          type: 'select',
+          value: 'euclidean',
+          value_list: ['euclidean', 'manhattan', 'chebyshev'],
+          bind: 'distance'
+        }
+      ];
     }
 
     Voronoi.prototype.createPoints = function vonoroiCreatePoints() {
@@ -315,7 +339,7 @@
       // Draw a Voronoi diagram
       this.createPoints();
       const ctx = this.canvas.getContext();
-      this.algorithms[this.algorithm](this.points, ctx, this.chebyshev, this.max_x, this.max_y);
+      this.algorithms[this.algorithm](this.points, ctx, this[this.distance], this.max_x, this.max_y);
     }
 
     return {
