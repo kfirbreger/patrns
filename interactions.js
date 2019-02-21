@@ -57,17 +57,36 @@
      * If the creation falis returns null, otherwise returns the dom element.
      * It does NOT add the element to the dom
      */
-    const input = document.createElement('input');
+    let input;
+    // Handling select tag
+    if (params['type'] === 'select') {
+      input = document.createElement('select');
+      if (Array.isArray(params['value_list'])) {
+        let opt;
+        for (let i = 0;i < params['value_list'].length; i++) {
+          opt = document.createElement('option');
+          opt.setAttribute('value', params['value_list'][i]);
+          opt.setAttribute('class', 'capitilize');
+          opt.innerHTML = params['value_list'][i];
+          input.appendChild(opt);
+        }
+      } else {
+        console.log('No options given to a select control');
+      }
+    } else {
+      input = document.createElement('input');
+      input.setAttribute('type', params['type']);
+    }
     // @TODO add check that the ID does not yet exist
-    for (let attr of ['id', 'type', 'min', 'max', 'value', 'class', 'step']) {
+    for (let attr of ['id', 'min', 'max', 'value', 'class', 'step']) {
       if (params[attr] !== undefined) {
         input.setAttribute(attr, params[attr]);
       }
     }
-    // Binding to variable if needed
+        // Binding to variable if needed
     if (params['bind']) {
       input.onchange = function(evt) {
-        if (evt.srcElement.valueAsNumber !== null) {
+        if (evt.srcElement.valueAsNumber !== undefined) {
           window.Art[active_id][params['bind']] = evt.srcElement.valueAsNumber;
         } else {
           window.Art[active_id][params['bind']] = evt.srcElement.value;
