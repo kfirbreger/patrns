@@ -231,7 +231,7 @@
       this.variaty = (variaty)? variaty : 5;
       this.coloration = (coloration)? coloration : 'bw';
     }
-    Lines.prototype.draw = function draw() {
+    Lines.prototype.draw = function linesDraw() {
       const ctx = this.canvas.getContext();
       const step = 2 * Math.PI / this.count;  // The angle for each line
       // Clearing the canvas
