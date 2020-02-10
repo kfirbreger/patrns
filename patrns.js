@@ -36,7 +36,7 @@
         getContext: function() {
           try {
             return this.elem.getContext('2d');
-          } catch {
+          } catch (e) {
             console.log('Falied to get context from', this.elem);
             return null;
           }
